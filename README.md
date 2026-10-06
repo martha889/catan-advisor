@@ -11,6 +11,8 @@ I built a Catan-playing bot, had it play itself, and measured what separates win
 
 Everything reproduces with `node sim/analyze.js`: no dependencies, about 30 seconds on a laptop.
 
+**▶ Try the advisor in your browser: [martha889.github.io/catan-advisor](https://martha889.github.io/catan-advisor/)**. Click **Try an example board** to see it in seconds; nothing to install.
+
 <p align="center"><img src="docs/img/awards.svg" alt="Win rate by awards held at game end: both 99.1%, Longest Road only 61.2%, Largest Army only 60.7%, neither 1.9%" width="720"></p>
 
 **Contents:** [Catan in 60 seconds](#catan-in-60-seconds) · [Findings](#findings) · [How it works](#how-it-works) · [Experiments](#strategy-experiments) · [Try it](#try-it-against-a-bot) · [Reproduce](#reproduce-the-results) · [Limitations](#limitations) · [FAQ](#faq) · [Disclaimer](#disclaimer)
@@ -251,7 +253,7 @@ The repo includes a browser tool for **1v1 games against a bot**: you record the
 
 <p align="center"><img src="docs/img/browser-tool.png" alt="The browser tool: the board with suggested spots marked in gold, and an orange advice panel recommending a city upgrade" width="800"></p>
 
-1. **Open it.** Clone or download the repo and open `index.html` in Chrome, Safari or Firefox.
+1. **Open it.** Use the [live version](https://martha889.github.io/catan-advisor/), or clone the repo and open `index.html` in Chrome, Safari or Firefox.
 2. **Load the board.** Or click **Try an example board** to skip this step.
    - **From a screenshot:** take one of the board (on macOS, ⌘⇧⌃4 copies it) and press ⌘V on the page. Then click the number token on the **top-left** tile, then the **bottom-right** tile. The reader is tuned to colonist.io's board art, one of the places you can play against bots; with other art, expect to fix more tiles by hand.
    - **By hand:** click each tile to set its resource and number.
