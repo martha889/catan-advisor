@@ -47,8 +47,32 @@ function randomBoard() {
 }
 
 function finish(game, stats, res) {
-  [0, 1].forEach(p => { stats[p].lr += game.awards.road === p ? 1 : 0; stats[p].la += game.awards.army === p ? 1 : 0; stats[p].vpCards += game.players[p].dev.vp + game.players[p].devNew.vp; });
+  [0, 1].forEach(p => {
+    const pl = game.players[p];
+    stats[p].lr += game.awards.road === p ? 1 : 0;
+    stats[p].la += game.awards.army === p ? 1 : 0;
+    stats[p].vpCards += pl.dev.vp + pl.devNew.vp;
+    // Final position, for analysis.
+    stats[p].finalSettlements = pl.settlements.length;
+    stats[p].finalCities = pl.cities.length;
+    stats[p].finalRoads = pl.roads.length;
+    stats[p].vp = R.victoryPoints(game, p);
+  });
   return res;
+}
+
+// Opening features of player p right after setup, for analysis.
+function openingFeatures(board, game, p) {
+  const prod = { wood: 0, brick: 0, sheep: 0, wheat: 0, ore: 0 };
+  let port = null;
+  game.players[p].settlements.forEach(v => {
+    R.GEO.vertices[v].hexes.forEach(h => { const t = board.hexes[h]; if (t.res !== 'desert') prod[t.res] += R.PIPS[t.num]; });
+    port = port || R.portAt(board, v);
+  });
+  return {
+    pips: RES.reduce((s, r) => s + prod[r], 0), woodBrick: prod.wood + prod.brick, oreWheat: prod.ore + prod.wheat,
+    kinds: RES.filter(r => prod[r] > 0).length, port: port ? (port === 'any' ? '3:1' : '2:1') : 'none',
+  };
 }
 
 function playGame(engines, first, { target = 15, discardLimit = 9 } = {}) {
@@ -66,6 +90,7 @@ function playGame(engines, first, { target = 15, discardLimit = 9 } = {}) {
     if (sa.kind === 'settlement') R.buildSettlement(board, game, p, sa.spots[0].v);
     else R.buildRoad(board, game, p, sa.roads[0].e);
   }
+  [0, 1].forEach(p => { stats[p].opening = openingFeatures(board, game, p); });
 
   const won = p => R.victoryPoints(game, p) >= target;
   const moveRobber = (p, X) => {
@@ -173,7 +198,7 @@ function runMatch({ a, b, games = 400, seed = 1 }) {
     const res = playGame([engines[seats[0]], engines[seats[1]]], first);
     if (res.winner === null) tally.draw++; else tally[seats[res.winner]]++;
     turnsSum += res.turns;
-    res.stats.forEach((st, i) => Object.keys(st).forEach(k => { agg[seats[i]][k] = (agg[seats[i]][k] || 0) + st[k]; }));
+    res.stats.forEach((st, i) => Object.keys(st).forEach(k => { if (typeof st[k] === 'number') agg[seats[i]][k] = (agg[seats[i]][k] || 0) + st[k]; }));
   }
   return { games, tally, turnsSum, agg };
 }
@@ -204,5 +229,8 @@ function main() {
   for (const k of ['A', 'B']) console.log(k, Object.entries(agg[k]).map(([x, n]) => `${x} ${(n / games).toFixed(2)}`).join(', '));
 }
 
-module.exports = { runMatch, ENGINE, BASELINE };
+// For analysis scripts: play single games with a given seed.
+function seedRandom(seed) { rand = mulberry32(seed); }
+
+module.exports = { runMatch, playGame, loadEngine, seedRandom, ENGINE, BASELINE };
 if (require.main === module) main();
