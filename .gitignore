@@ -1,0 +1,8 @@
+# Game recordings: contain usernames and session data
+captures/
+
+# Local-only files
+userscript/
+
+.DS_Store
+node_modules/

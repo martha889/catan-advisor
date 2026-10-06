@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catan Advisor</title>
+<style>
+  :root {
+    --bg: #f4f1ea; --panel: #ffffff; --ink: #1f2328; --muted: #6b6f76; --line: #ddd8cc;
+    --accent: #c2410c; --accent-soft: #fff1e6; --good: #15803d; --warn: #b45309; --hl: #f5b301;
+    --me: #f08a24; --opp: #d62f2f; --sea: #2f65a0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17191c; --panel: #212429; --ink: #e8e6e1; --muted: #9aa0a6; --line: #343840;
+      --accent: #fb923c; --accent-soft: #3a2a1e; --good: #4ade80; --warn: #fbbf24; --sea: #1f4a7a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  header { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--panel); flex-wrap: wrap; }
+  header h1 { font-size: 16px; margin: 0 8px 0 0; }
+  header .spacer { flex: 1; }
+  .score { font-weight: 600; }
+  .score .me { color: var(--me); } .score .opp { color: var(--opp); }
+  main { display: grid; grid-template-columns: minmax(360px, 1fr) 420px; gap: 16px; padding: 16px; max-width: 1400px; margin: 0 auto; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; }
+  .card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 0 0 8px; }
+  #advice { border: 2px solid var(--accent); background: var(--accent-soft); }
+  #advice h3 { margin: 0 0 6px; font-size: 16px; }
+  #advice ol, #advice ul { margin: 6px 0; padding-left: 20px; }
+  #advice li { margin: 3px 0; }
+  .muted { color: var(--muted); }
+  .warn { color: var(--warn); }
+  button { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 7px; padding: 5px 10px; cursor: pointer; }
+  button:hover:not(:disabled) { border-color: var(--accent); }
+  button:disabled { opacity: .4; cursor: default; }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  button.sel { outline: 2px solid var(--accent); }
+  .row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 6px 0; }
+  .dice button { width: 40px; font-weight: 600; }
+  .dice button.hot { color: var(--opp); }
+  table.hands { width: 100%; border-collapse: collapse; }
+  table.hands td, table.hands th { padding: 3px 1px; text-align: center; }
+  table.hands th { font-weight: 500; color: var(--muted); font-size: 12px; }
+  table.hands td:first-child { text-align: left; font-weight: 600; }
+  .adj { display: inline-flex; align-items: center; gap: 2px; }
+  .adj button { padding: 0 3px; line-height: 16px; font-size: 11px; min-width: 16px; }
+  .adj span { min-width: 14px; display: inline-block; }
+  #log { max-height: 180px; overflow: auto; font-size: 12px; color: var(--muted); }
+  #log div { padding: 2px 0; border-bottom: 1px dashed var(--line); }
+  #boardWrap { background: var(--sea); border-radius: 12px; padding: 8px; position: sticky; top: 12px; }
+  svg#board { width: 100%; height: auto; display: block; user-select: none; }
+  .vtx { cursor: pointer; fill: transparent; }
+  .vtx:hover { fill: rgba(255,255,255,.55); }
+  .edg { cursor: pointer; stroke: transparent; stroke-width: 14; stroke-linecap: round; }
+  .edg:hover { stroke: rgba(255,255,255,.5); }
+  .hex { cursor: pointer; }
+  #importCanvas { max-width: 100%; border-radius: 8px; cursor: crosshair; display: block; }
+  .drop { border: 2px dashed var(--line); border-radius: 10px; padding: 28px; text-align: center; }
+  .drop.over { border-color: var(--accent); }
+  .hidden { display: none !important; }
+  .pill { display: inline-block; padding: 1px 7px; border-radius: 99px; font-size: 12px; background: var(--bg); border: 1px solid var(--line); }
+  kbd { font: 12px ui-monospace, monospace; border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; }
+  select, input[type=number] { font: inherit; padding: 3px 6px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Catan Advisor</h1>
+  <span id="status" class="muted"></span>
+  <span class="spacer"></span>
+  <span id="scoreBar" class="score"></span>
+  <button id="undoBtn" title="Undo (⌘Z)">Undo</button>
+  <button id="editBtn">Edit board</button>
+  <button id="newBtn">New game</button>
+</header>
+
+<main>
+  <section>
+    <div id="boardWrap" class="hidden"><svg id="board" viewBox="-70 -105 640 560"></svg></div>
+    <div id="importView" class="card">
+      <h2>1 · Board from screenshot</h2>
+      <div id="drop" class="drop">
+        <p><b>Paste a screenshot</b> (<kbd>⌘⇧⌃4</kbd> copies one, then <kbd>⌘V</kbd> here), drop an image, or
+          <label style="text-decoration:underline;cursor:pointer">choose a file<input id="fileInput" type="file" accept="image/*" class="hidden"></label>.</p>
+        <p class="muted">Or skip: <button id="exampleBtn">Use the board from your current game</button></p>
+      </div>
+      <p id="importHint" class="hidden"></p>
+      <canvas id="importCanvas" class="hidden"></canvas>
+    </div>
+  </section>
+
+  <aside id="side">
+    <div id="editPanel" class="hidden">
+      <div class="card">
+        <h2>2 · Check the board</h2>
+        <p class="muted">Click a tile to fix its resource or number. Click a port to change its type. Tiles with a dashed outline were uncertain.</p>
+        <div id="hexEditor"></div>
+        <div id="boardProblems"></div>
+      </div>
+      <div class="card">
+        <h2>3 · Game settings</h2>
+        <div class="row">Who places first?
+          <select id="firstSel"><option value="1">Opponent</option><option value="0">You</option></select></div>
+        <div class="row">Points to win <input id="targetIn" type="number" min="5" max="25" value="15" style="width:64px">
+          Discard above <input id="discardIn" type="number" min="5" max="12" value="7" style="width:56px"> cards</div>
+        <div class="row"><button id="startBtn" class="primary">Start game</button></div>
+      </div>
+    </div>
+
+    <div id="playPanel" class="hidden">
+      <div id="advice" class="card"></div>
+      <div id="pendingCard" class="card hidden"></div>
+      <div id="turnCard" class="card"></div>
+      <div class="card">
+        <h2>Hands <span class="muted" style="text-transform:none;letter-spacing:0">— auto-tracked; use ± for trades/steals</span></h2>
+        <div id="hands"></div>
+      </div>
+      <div class="card"><h2>Log</h2><div id="log"></div></div>
+    </div>
+  </aside>
+</main>
+
+<script src="engine.js"></script>
+<script src="vision.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
