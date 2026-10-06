@@ -85,7 +85,7 @@
       <div id="drop" class="drop">
         <p><b>Paste a screenshot</b> (<kbd>⌘⇧⌃4</kbd> copies one, then <kbd>⌘V</kbd> here), drop an image, or
           <label style="text-decoration:underline;cursor:pointer">choose a file<input id="fileInput" type="file" accept="image/*" class="hidden"></label>.</p>
-        <p class="muted">Or skip: <button id="exampleBtn">Use the board from your current game</button></p>
+        <p class="muted">Or skip: <button id="exampleBtn">Try an example board</button></p>
       </div>
       <p id="importHint" class="hidden"></p>
       <canvas id="importCanvas" class="hidden"></canvas>
@@ -124,6 +124,7 @@
 </main>
 
 <script src="engine.js"></script>
+<script src="lookahead.js"></script>
 <script src="vision.js"></script>
 <script src="app.js"></script>
 </body>

@@ -101,7 +101,7 @@ flowchart LR
   SIM --> SRCH["sim/search.js<br/>weight search"]
   E --> APP["index.html + app.js<br/>browser tool"]
   VIS["vision.js<br/>reads a board screenshot"] --> APP
-  LA -.->|"not wired in yet"| APP
+  LA --> APP
 ```
 
 **The engine** (`engine.js`) knows the rules and makes every decision with hand-written heuristics. Their weights live in one object, `TUNE`.
@@ -252,7 +252,7 @@ The repo includes a browser tool for **1v1 games against a bot**: you record the
 <p align="center"><img src="docs/img/browser-tool.png" alt="The browser tool: the board with suggested spots marked in gold, and an orange advice panel recommending a city upgrade" width="800"></p>
 
 1. **Open it.** Clone or download the repo and open `index.html` in Chrome, Safari or Firefox.
-2. **Load the board.** Or click *Use the board from your current game* to try it on an example board.
+2. **Load the board.** Or click **Try an example board** to skip this step.
    - **From a screenshot:** take one of the board (on macOS, ⌘⇧⌃4 copies it) and press ⌘V on the page. Then click the number token on the **top-left** tile, then the **bottom-right** tile. The reader is tuned to colonist.io's board art, one of the places you can play against bots; with other art, expect to fix more tiles by hand.
    - **By hand:** click each tile to set its resource and number.
 3. **Check the board.** Tiles with a dashed outline were uncertain; click to fix them. Click a port to change its type.
@@ -265,7 +265,9 @@ The repo includes a browser tool for **1v1 games against a bot**: you record the
    - **Undo** (⌘Z) reverts a misclick. Progress is saved in your browser.
 6. **Read the advice.** The orange panel gives your setup spots, build order (including trades), robber placement, discards and dev card plays. Gold markers show them on the board.
 
-The browser tool currently uses the rule-based engine. The lookahead and simulated openings are used in the experiments but not yet in the tool (see [Roadmap](#roadmap)).
+The tool runs the full engine in your browser:
+- **Setup:** it plays 60 whole games from each of the six best spots (about 5–10 seconds, with a progress line) and ranks them by simulated win rate, with the engine playing your opponent.
+- **Your turn:** it runs the turn lookahead, which takes well under a second. When the lookahead disagrees with the simple rule, the panel says so and by roughly how much.
 
 ## Reproduce the results
 
@@ -315,7 +317,6 @@ node sim/search.js 3200 2
 
 ## Roadmap
 
-- Wire the lookahead and simulated openings into the browser tool.
 - Support 3–4 player games in the simulator.
 - Model player-to-player trades.
 - Test against stronger opponents: a learned policy, or a library of human openings.

@@ -136,6 +136,36 @@
   }
 
   // ---------- Advice ----------
+  // ---------- Monte Carlo (lookahead.js; optional) ----------
+  const LA = window.CatanLookahead;
+  const mc = { opening: null, turn: null };
+
+  // Simulated openings: one search per setup position, advanced in small slices between renders.
+  function openingSearch(board, game) {
+    if (!LA) return null;
+    const key = JSON.stringify(game.players.map(p => [p.settlements, p.roads]));
+    if (!mc.opening || mc.opening.key !== key) {
+      mc.opening = { key, search: LA.openingSearch(board, game, 0, { candidates: 6, games: 60 }), done: false, result: null };
+    }
+    const o = mc.opening;
+    if (!o.done && !o.timer) {
+      o.timer = setTimeout(() => {
+        o.timer = null;
+        if (o.search.step(60)) { o.done = true; o.result = o.search.result(); }
+        if (mc.opening === o && state.view === 'play') render();
+      }, 20);
+    }
+    return o;
+  }
+
+  // Turn lookahead, cached per position (it takes up to about a second).
+  function turnLookahead(board, game) {
+    if (!LA) return null;
+    const key = JSON.stringify([game.turn.number, board.robber, game.turn.devPlayed, game.players.map(p => [p.res, p.settlements, p.cities, p.roads.length, p.dev, p.knights, p.devHidden])]);
+    if (!mc.turn || mc.turn.key !== key) mc.turn = { key, result: LA.planTurn(board, game, 0, { options: 4, samples: 16, horizon: 10 }) };
+    return mc.turn.result;
+  }
+
   function computeAdvice() {
     const { board, game } = state;
     const hl = { v: [], e: [], h: [] };
@@ -146,13 +176,18 @@
     if (game.phase === 'setup') {
       const p = E.currentPlayer(game);
       if (p === me) {
-        const sa = E.setupAdvice(board, game, me);
+        let sa = E.setupAdvice(board, game, me);
         if (sa.kind === 'settlement') {
+          const search = openingSearch(board, game);
+          if (search && search.done) sa = search.result;
           title = 'Place your settlement on spot 1';
           sa.spots.slice(0, 3).forEach((s, i) => {
             hl.v.push({ v: s.v, rank: i + 1 });
-            lines.push(`<b>${i + 1}.</b> ${esc(E.vertexLabel(board, s.v))} <span class="muted">— ${s.pips} pips</span>`);
+            const why = s.winRate !== undefined ? `wins ${Math.round(100 * s.winRate)}% in simulation` : `${s.pips} pips`;
+            lines.push(`<b>${i + 1}.</b> ${esc(E.vertexLabel(board, s.v))} <span class="muted">— ${why}</span>`);
           });
+          if (search && !search.done) lines.push(`<span class="muted">🔮 Simulating whole games from each spot… ${Math.round(100 * search.search.progress())}%</span>`);
+          else if (search) lines.push('<span class="muted">🔮 Ranked by simulated win rate: 60 whole games from each spot, with the engine playing your opponent.</span>');
           lines.push('<span class="muted">Click the spot on the board once you\'ve placed it.</span>');
         } else {
           const best = sa.roads[0];
@@ -203,7 +238,19 @@
         return { title, lines, hl };
       }
       tips.forEach(t => lines.push(`🃏 ${esc(t.text)}`));
-      const plan = E.planTurn(board, game, me);
+      let plan = E.planTurn(board, game, me);
+      // The lookahead replaces the first step only when playing the future out says it's clearly better.
+      const la = turnLookahead(board, game);
+      if (la && la.lookahead) {
+        const same = (a, b) => a && b && a.type === b.type && a.v === b.v && a.e === b.e;
+        const pick = la.steps[0] || null;
+        if (!same(pick, plan.steps[0]) && (pick || plan.steps.length)) {
+          const entry = la.lookahead.find(x => (x.step === null && pick === null) || same(x.step, pick));
+          const gain = entry ? (entry.gain / 10).toFixed(1) : '?';
+          lines.push(`<span class="muted">🔮 Lookahead: ${pick ? `this beats "${esc(lowerFirst(plan.steps[0] ? plan.steps[0].text : 'ending the turn'))}"` : 'keeping your cards beats building now'} by ~${gain} VP over the next few turns.</span>`);
+          plan = { steps: pick ? [pick] : [], handAfter: game.players[me].res, game };
+        }
+      }
       if (plan.steps.length) {
         title = 'Best moves this turn';
         const items = [];
