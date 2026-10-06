@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360" role="img" aria-labelledby="t d">
+<title id="t">A stronger opening wins more often</title><desc id="d">≤ −4 pips: 31.6%; −3 to −2 pips: 40.0%; −1 to +1 pips: 50.0%; +2 to +3 pips: 60.0%; ≥ +4 pips: 68.4%</desc>
+<style>
+  .surface { fill: #fcfcfb; stroke: rgba(11,11,11,0.10); }
+  .ink { fill: #0b0b0b; } .ink2 { fill: #52514e; } .muted { fill: #898781; }
+  .grid { stroke: #e1e0d9; } .axis { stroke: #c3c2b7; } .ref { stroke: #898781; }
+  .s1 { fill: #2a78d6; } .s2 { fill: #eb6834; } .s0 { fill: #c3c2b7; }
+  .w1 { stroke: #2a78d6; } .w0 { stroke: #898781; }
+  @media (prefers-color-scheme: dark) {
+    .surface { fill: #1a1a19; stroke: rgba(255,255,255,0.10); }
+    .ink { fill: #ffffff; } .ink2 { fill: #c3c2b7; } .muted { fill: #898781; }
+    .grid { stroke: #2c2c2a; } .axis { stroke: #383835; } .ref { stroke: #898781; }
+    .s1 { fill: #3987e5; } .s2 { fill: #d95926; } .s0 { fill: #52514e; }
+    .w1 { stroke: #3987e5; } .w0 { stroke: #898781; }
+  }
+  text { font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
+  .title { font-size: 17px; font-weight: 600; } .sub { font-size: 13px; }
+  .tick { font-size: 12px; } .val { font-size: 12px; font-weight: 600; } .label { font-size: 13px; }</style>
+<rect class="surface" x="0.5" y="0.5" width="719" height="359" rx="12"/>
+<text class="title ink" x="24" y="34">A stronger opening wins more often</text>
+<text class="sub ink2" x="24" y="56">Win rate by opening production advantage, 1v1 to 15 (self-play)</text>
+<line class="grid" x1="64" x2="696" y1="296" y2="296"/><text class="tick muted" x="54" y="300" text-anchor="end">0%</text><line class="grid" x1="64" x2="696" y1="243" y2="243"/><text class="tick muted" x="54" y="247" text-anchor="end">25%</text><line class="grid" x1="64" x2="696" y1="190" y2="190"/><text class="tick muted" x="54" y="194" text-anchor="end">50%</text><line class="grid" x1="64" x2="696" y1="137" y2="137"/><text class="tick muted" x="54" y="141" text-anchor="end">75%</text><line class="grid" x1="64" x2="696" y1="84" y2="84"/><text class="tick muted" x="54" y="88" text-anchor="end">100%</text><path class="s1" d="M95.6,296 V233.02727272727273 Q95.6,229.02727272727273 99.6,229.02727272727273 H154.8 Q158.8,229.02727272727273 158.8,233.02727272727273 V296 Z"/><text class="val ink" x="127.2" y="221.02727272727273" text-anchor="middle">31.6%</text><text class="tick ink2" x="127.2" y="316" text-anchor="middle">≤ −4</text><path class="s1" d="M222.00000000000003,296 V215.13339442335382 Q222.00000000000003,211.13339442335382 226.00000000000003,211.13339442335382 H281.20000000000005 Q285.20000000000005,211.13339442335382 285.20000000000005,215.13339442335382 V296 Z"/><text class="val ink" x="253.60000000000002" y="203.13339442335382" text-anchor="middle">40.0%</text><text class="tick ink2" x="253.60000000000002" y="316" text-anchor="middle">−3 to −2</text><path class="s1" d="M348.4,296 V194 Q348.4,190 352.4,190 H407.59999999999997 Q411.59999999999997,190 411.59999999999997,194 V296 Z"/><text class="val ink" x="380" y="182" text-anchor="middle">50.0%</text><text class="tick ink2" x="380" y="316" text-anchor="middle">−1 to +1</text><path class="s1" d="M474.8,296 V172.86660557664618 Q474.8,168.86660557664618 478.8,168.86660557664618 H534 Q538,168.86660557664618 538,172.86660557664618 V296 Z"/><text class="val ink" x="506.40000000000003" y="160.86660557664618" text-anchor="middle">60.0%</text><text class="tick ink2" x="506.40000000000003" y="316" text-anchor="middle">+2 to +3</text><path class="s1" d="M601.2,296 V154.97272727272727 Q601.2,150.97272727272727 605.2,150.97272727272727 H660.4000000000001 Q664.4000000000001,150.97272727272727 664.4000000000001,154.97272727272727 V296 Z"/><text class="val ink" x="632.8000000000001" y="142.97272727272727" text-anchor="middle">68.4%</text><text class="tick ink2" x="632.8000000000001" y="316" text-anchor="middle">≥ +4</text><line class="ref" x1="64" x2="696" y1="190" y2="190" stroke-dasharray="4 4"/><text class="tick muted" x="72" y="184">50% = coin flip</text><line class="axis" x1="64" x2="696" y1="296" y2="296"/><text class="tick ink2" x="380" y="344" text-anchor="middle">Your opening's production pips minus your opponent's</text>
+</svg>

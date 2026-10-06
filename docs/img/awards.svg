@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="300" viewBox="0 0 720 300" role="img" aria-labelledby="t d">
+<title id="t">Longest Road + Largest Army is almost a guaranteed win</title><desc id="d">Both: 99.1%; Longest Road only: 61.2%; Largest Army only: 60.7%; Neither: 1.9%</desc>
+<style>
+  .surface { fill: #fcfcfb; stroke: rgba(11,11,11,0.10); }
+  .ink { fill: #0b0b0b; } .ink2 { fill: #52514e; } .muted { fill: #898781; }
+  .grid { stroke: #e1e0d9; } .axis { stroke: #c3c2b7; } .ref { stroke: #898781; }
+  .s1 { fill: #2a78d6; } .s2 { fill: #eb6834; } .s0 { fill: #c3c2b7; }
+  .w1 { stroke: #2a78d6; } .w0 { stroke: #898781; }
+  @media (prefers-color-scheme: dark) {
+    .surface { fill: #1a1a19; stroke: rgba(255,255,255,0.10); }
+    .ink { fill: #ffffff; } .ink2 { fill: #c3c2b7; } .muted { fill: #898781; }
+    .grid { stroke: #2c2c2a; } .axis { stroke: #383835; } .ref { stroke: #898781; }
+    .s1 { fill: #3987e5; } .s2 { fill: #d95926; } .s0 { fill: #52514e; }
+    .w1 { stroke: #3987e5; } .w0 { stroke: #898781; }
+  }
+  text { font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
+  .title { font-size: 17px; font-weight: 600; } .sub { font-size: 13px; }
+  .tick { font-size: 12px; } .val { font-size: 12px; font-weight: 600; } .label { font-size: 13px; }</style>
+<rect class="surface" x="0.5" y="0.5" width="719" height="299" rx="12"/>
+<text class="title ink" x="24" y="34">Longest Road + Largest Army is almost a guaranteed win</text>
+<text class="sub ink2" x="24" y="56">Win rate by which awards a player holds when the game ends</text>
+<line class="grid" x1="170" x2="170" y1="78" y2="260"/><text class="tick muted" x="170" y="278" text-anchor="middle">0%</text><line class="grid" x1="410" x2="410" y1="78" y2="260"/><text class="tick muted" x="410" y="278" text-anchor="middle">50%</text><line class="grid" x1="650" x2="650" y1="78" y2="260"/><text class="tick muted" x="650" y="278" text-anchor="middle">100%</text><text class="label ink" x="158" y="110" text-anchor="end">Both</text><path class="s1" d="M170,92.8 H641.5130320026394 Q645.5130320026394,92.8 645.5130320026394,96.8 V115.19999999999999 Q645.5130320026394,119.19999999999999 641.5130320026394,119.19999999999999 H170 Z"/><text class="val ink" x="653.5130320026394" y="110">99.1%</text><text class="label ink" x="158" y="154" text-anchor="end">Longest Road only</text><path class="s1" d="M170,136.8 H459.89294628824996 Q463.89294628824996,136.8 463.89294628824996,140.8 V159.20000000000002 Q463.89294628824996,163.20000000000002 459.89294628824996,163.20000000000002 H170 Z"/><text class="val ink" x="471.89294628824996" y="154">61.2%</text><text class="label ink" x="158" y="198" text-anchor="end">Largest Army only</text><path class="s1" d="M170,180.8 H457.4285714285714 Q461.4285714285714,180.8 461.4285714285714,184.8 V203.20000000000002 Q461.4285714285714,207.20000000000002 457.4285714285714,207.20000000000002 H170 Z"/><text class="val ink" x="469.4285714285714" y="198">60.7%</text><text class="label ink" x="158" y="242" text-anchor="end">Neither</text><path class="s1" d="M170,224.8 H175.19333032897703 Q179.19333032897703,224.8 179.19333032897703,228.8 V247.20000000000002 Q179.19333032897703,251.20000000000002 175.19333032897703,251.20000000000002 H170 Z"/><text class="val ink" x="187.19333032897703" y="242">1.9%</text><line class="axis" x1="170" x2="170" y1="78" y2="260"/>
+</svg>

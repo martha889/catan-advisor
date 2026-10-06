@@ -1,0 +1,195 @@
+{
+ "overview": {
+  "games": 20000,
+  "unfinished": 0,
+  "seed": 500000,
+  "firstPlayerWinRate": 0.576,
+  "medianTurns": 73,
+  "loserVP": 8.83525
+ },
+ "pointSources": {
+  "winner": {
+   "settlements": 2.82615,
+   "cities": 7.935,
+   "road": 1.5631,
+   "army": 1.3122,
+   "cards": 1.4944
+  },
+  "loser": {
+   "settlements": 1.9671,
+   "cities": 5.5248,
+   "road": 0.4279,
+   "army": 0.2747,
+   "cards": 0.64075
+  }
+ },
+ "awards": [
+  {
+   "label": "Both",
+   "players": 9093,
+   "winRate": 0.9906521500054988
+  },
+  {
+   "label": "Longest Road only",
+   "players": 10817,
+   "winRate": 0.6122769714338541
+  },
+  {
+   "label": "Largest Army only",
+   "players": 6776,
+   "winRate": 0.6071428571428571
+  },
+  {
+   "label": "Neither",
+   "players": 13314,
+   "winRate": 0.01915277151870212
+  }
+ ],
+ "perGame": [
+  {
+   "label": "Dev cards bought",
+   "winner": 7.05065,
+   "loser": 3.2133
+  },
+  {
+   "label": "Knights played",
+   "winner": 3.0363,
+   "loser": 1.4972
+  },
+  {
+   "label": "Bank/port trades",
+   "winner": 12.49695,
+   "loser": 6.915
+  },
+  {
+   "label": "Settlements built",
+   "winner": 4.79365,
+   "loser": 2.7295
+  },
+  {
+   "label": "Cities built",
+   "winner": 3.9675,
+   "loser": 2.7624
+  },
+  {
+   "label": "Roads on the board",
+   "winner": 11.02255,
+   "loser": 8.3788
+  },
+  {
+   "label": "Cards lost to 7s",
+   "winner": 5.59795,
+   "loser": 5.0648
+  },
+  {
+   "label": "Turns with nothing built",
+   "winner": 19.24125,
+   "loser": 24.4686
+  }
+ ],
+ "pipAdvantage": [
+  {
+   "label": "≤ −4",
+   "players": 3080,
+   "winRate": 0.3159090909090909
+  },
+  {
+   "label": "−3 to −2",
+   "players": 7639,
+   "winRate": 0.40031417724833096
+  },
+  {
+   "label": "−1 to +1",
+   "players": 18562,
+   "winRate": 0.5
+  },
+  {
+   "label": "+2 to +3",
+   "players": 7639,
+   "winRate": 0.599685822751669
+  },
+  {
+   "label": "≥ +4",
+   "players": 3080,
+   "winRate": 0.6840909090909091
+  }
+ ],
+ "woodBrick": [
+  {
+   "label": "0–3",
+   "players": 3,
+   "winRate": 0.3333333333333333
+  },
+  {
+   "label": "4–6",
+   "players": 6161,
+   "winRate": 0.4799545528323324
+  },
+  {
+   "label": "7–9",
+   "players": 19699,
+   "winRate": 0.5011421899588812
+  },
+  {
+   "label": "10+",
+   "players": 14137,
+   "winRate": 0.507179741104902
+  }
+ ],
+ "oreWheat": [
+  {
+   "label": "0–4",
+   "players": 401,
+   "winRate": 0.41895261845386533
+  },
+  {
+   "label": "5–8",
+   "players": 15483,
+   "winRate": 0.46883678873603307
+  },
+  {
+   "label": "9–12",
+   "players": 19434,
+   "winRate": 0.5108572604713388
+  },
+  {
+   "label": "13+",
+   "players": 4682,
+   "winRate": 0.5649295173002991
+  }
+ ],
+ "kinds": [
+  {
+   "label": "3",
+   "players": 52,
+   "winRate": 0.46153846153846156
+  },
+  {
+   "label": "4",
+   "players": 4179,
+   "winRate": 0.5051447714764298
+  },
+  {
+   "label": "5",
+   "players": 35766,
+   "winRate": 0.49944080970754345
+  }
+ ],
+ "port": [
+  {
+   "label": "none",
+   "players": 38176,
+   "winRate": 0.5012835289186923
+  },
+  {
+   "label": "3:1",
+   "players": 656,
+   "winRate": 0.47560975609756095
+  },
+  {
+   "label": "2:1",
+   "players": 1168,
+   "winRate": 0.4717465753424658
+  }
+ ]
+}
